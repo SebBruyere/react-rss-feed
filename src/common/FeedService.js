@@ -11,7 +11,9 @@ export default class FeedService {
     fetchRSS(callBack) {
         axios.get(`${this.baseURL}${this.RSSFeedTest}&api_key=${this.APIKey}`)
             .then(res => {
-                callBack(res);
+                callBack(res.data.items);
             });
     }
+
+
 }
