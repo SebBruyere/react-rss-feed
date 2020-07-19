@@ -28,16 +28,23 @@ export default class FeedService {
             var itemObject = {};
             parentTags.map( tag => {
                 var currentItem = item.getElementsByTagName(tag)[0];
-                
+
                 // Protect from empty tag text content
                 if (currentItem) {
                     if (currentItem.childElementCount) {
-                        var childTags = this.getTags(currentItem);
-                        var childObj = {};
-                        childTags.map( childTag => {
-                            console.log(currentItem);
-                            childObj[childTag] = currentItem.getElementsByTagName(childTag)[0]
-                        });
+                        // var childTags = this.getTags(currentItem);
+                        // var childObj = {};
+                        // childTags.map( childTag => {
+                        //     console.log(currentItem);
+                        //     childObj[childTag] = currentItem.getElementsByTagName(childTag)[0]
+                        // });
+                        if (currentItem.hasAttribute("url")) {
+                            if (currentItem.prefix) {
+                                itemObject[currentItem.prefix] = currentItem.getAttribute("url");
+                            } else {
+                                itemObject[tag] = currentItem.getAttribute("url");
+                            }
+                        }
                     } else {
                         itemObject[tag] = currentItem.textContent;
                     }
