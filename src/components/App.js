@@ -14,12 +14,13 @@ export default class App extends React.Component {
         super();
 
         this.state = {
-            rssItems: ""
+            rssItems: []
         }
     }
 
     componentDidMount () {
         feedService.fetchRSS( (result) => {
+            console.log(result);
             this.setState({
                 rssItems: result
             });
