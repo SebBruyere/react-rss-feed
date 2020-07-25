@@ -5,7 +5,7 @@ export default class Sidebar extends React.Component {
 
         return (
             <div>
-                <h1>Hello</h1>
+                <h1>Rss Feed</h1>
             </div>
         );
     }

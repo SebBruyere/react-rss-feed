@@ -1,23 +1,32 @@
 export default class FeedService {
 
     constructor() {
-        this.RSSFeedTest = `https://www.lemonde.fr/rss/une.xml`;
-        this.APIKey = `xe3tuhc9olqsuhvn9fc8fzgtmrgdjcqnl514pxqz`;
-        this.baseURL = `https://api.rss2json.com/v1/api.json?rss_url=`;
         this.proxyURL = `https://cors-anywhere.herokuapp.com/`;
     }
 
     fetchRSS(callBack) {
-        fetch(this.proxyURL + this.RSSFeedTest)
-            .then(response => response.text())
-            .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
-            .then(data => callBack( this.getItemChildNodes(data) ));
+        const feedList = require('./rssfeeds.json');
+
+        try {
+            Promise.all(feedList.rss_feeds.map((url) =>
+                fetch(this.proxyURL + url)
+                    .then(response => response.text())
+                    .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
+            )).then(data => {
+                // We have here and array of feeds and their items
+                const arrItemsByFeed = data.map( item => this.getItemChildNodes(item));
+                // We need to flaten all that to filter by date
+                const allItems = arrItemsByFeed.flat().sort( (a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+                allItems.map( item => console.log(new Date(item.pubDate)))
+            })
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     getItemChildNodes(RSSData) {
 
         console.log(RSSData);
-
         var filteredItem = [];
         var items = RSSData.getElementsByTagName("item");
 
