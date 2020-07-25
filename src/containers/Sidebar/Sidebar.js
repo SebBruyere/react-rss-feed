@@ -8,8 +8,8 @@ export default class Sidebar extends React.Component {
 
         if (feedsTitles.length) {
             items = feedsTitles.map((oneFeed, i) => (
-                <div className="mt-4 mb-4">
-                    <a key={i}>{oneFeed}</a>
+                <div key={i} className="mt-4 mb-4">
+                    <a>{oneFeed}</a>
                 </div>
             ));
         }
