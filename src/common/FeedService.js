@@ -16,8 +16,8 @@ export default class FeedService {
                 // We have here and array of feeds and their items
                 const arrItemsByFeed = data.map( item => this.getItemChildNodes(item));
                 // We need to flaten all that to filter by date
-                const allItems = arrItemsByFeed.flat().sort( (a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-                allItems.map( item => console.log(new Date(item.pubDate)))
+                const sortedItems = arrItemsByFeed.flat().sort( (a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+                callBack(sortedItems);
             })
         } catch (error) {
             console.error(error);
@@ -29,13 +29,16 @@ export default class FeedService {
         console.log(RSSData);
         var filteredItem = [];
         var items = RSSData.getElementsByTagName("item");
+        var feedTitle = RSSData.getElementsByTagName("title")[0].innerHTML;
 
         // Retrieve all tag names of this DOM Node
         var parentTags = this.getTags(items[0]);
 
         // Run through all retrieved items
         filteredItem = [...items].map( item => {
-            var itemObject = {};
+            var itemObject = {
+                "feeder": feedTitle
+            };
             parentTags.map( tag => {
                 var currentItem = item.getElementsByTagName(tag)[0];
 

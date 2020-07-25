@@ -15,3 +15,10 @@ a.wrapper-item:focus,
 a.wrapper-item:active {
     text-decoration: none;
 }
+
+.item-footer {
+    font-size: 0.8rem;
+    padding-top: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
