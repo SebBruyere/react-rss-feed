@@ -14,15 +14,18 @@ export default class App extends React.Component {
         super();
 
         this.state = {
-            rssItems: []
+            rssItems: [],
+            rssFeedsTitles: []
         }
     }
 
     componentDidMount () {
-        feedService.fetchRSS( (result) => {
-            console.log(result);
+        feedService.fetchRSS( (items, titles) => {
+            console.log(items);
+            console.log(titles);
             this.setState({
-                rssItems: result
+                rssItems: items,
+                rssFeedsTitles: titles
             });
         });
     }
@@ -33,7 +36,7 @@ export default class App extends React.Component {
               <div className="container">
                   <div className="row">
                       <div className="col-xs-12 col-md-4 text-center mt-4">
-                          <Sidebar />
+                          <Sidebar feedsTitles={this.state.rssFeedsTitles} />
                       </div>
                       <div className="col-xs-12 col-md-8 mt-4">
                           <Feed rssItems={this.state.rssItems} />

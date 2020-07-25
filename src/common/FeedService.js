@@ -1,6 +1,7 @@
 export default class FeedService {
 
     constructor() {
+        // Might cause some slow fetching, but useful against CORS troubles
         this.proxyURL = `https://cors-anywhere.herokuapp.com/`;
     }
 
@@ -13,11 +14,13 @@ export default class FeedService {
                     .then(response => response.text())
                     .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
             )).then(data => {
+
                 // We have here and array of feeds and their items
-                const arrItemsByFeed = data.map( item => this.getItemChildNodes(item));
+                const arrItemsByFeed = data.map( feed => this.getItemChildNodes(feed) );
+                const feedsTitles = data.map( feed => feed.getElementsByTagName("title")[0].innerHTML );
                 // We need to flaten all that to filter by date
                 const sortedItems = arrItemsByFeed.flat().sort( (a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-                callBack(sortedItems);
+                callBack(sortedItems, feedsTitles);
             })
         } catch (error) {
             console.error(error);
@@ -25,8 +28,6 @@ export default class FeedService {
     }
 
     getItemChildNodes(RSSData) {
-
-        console.log(RSSData);
         var filteredItem = [];
         var items = RSSData.getElementsByTagName("item");
         var feedTitle = RSSData.getElementsByTagName("title")[0].innerHTML;
