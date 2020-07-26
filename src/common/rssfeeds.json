@@ -1,6 +1,16 @@
 {
     "rss_feeds" : [
-        "https://www.lemonde.fr/rss/une.xml",
-        "https://www.nasa.gov/rss/dyn/breaking_news.rss"
+        {
+            "url": "https://www.lemonde.fr/rss/une.xml",
+            "media_tag": "media:content"
+        },
+        {
+            "url": "https://www.nasa.gov/rss/dyn/breaking_news.rss",
+            "media_tag": "enclosure"
+        },
+        {
+            "url": "https://news.xbox.com/en-us/feed/",
+            "media_tag": "media:thumbnail"
+        }
     ]
 }
